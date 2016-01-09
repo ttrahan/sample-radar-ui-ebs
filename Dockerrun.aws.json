@@ -10,7 +10,7 @@
   }
 ],
 "Authentication": {
-  "Bucket": "	shippable-demo-eb",
+  "Bucket": "shippable-demo-eb",
   "Key": "<DOCKER_CONFIG>"
 }
 }
