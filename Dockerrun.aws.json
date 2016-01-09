@@ -11,6 +11,5 @@
 ],
 "Authentication": {
   "Bucket": "shippable-demo-eb",
-  "Key": "<DOCKER_CONFIG>"
 }
 }
