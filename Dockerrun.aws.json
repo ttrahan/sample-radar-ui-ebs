@@ -10,7 +10,7 @@
   }
 ],
 "Authentication": {
-  "Bucket": "elasticbeanstalk-us-west-2-283203501536",
+  "Bucket": "	shippable-demo-eb",
   "Key": "<DOCKER_CONFIG>"
 }
 }
