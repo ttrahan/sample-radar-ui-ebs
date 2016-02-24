@@ -3,10 +3,28 @@ language: node_js
 
 # version numbers, testing against two versions of node
 node_js:
-    - 0.10.25
+  - 0.10.33
 
-before_install:
+build:
+  pre_ci:
+    - docker build -t ttrahan/sample-radar-ui-ebs:latest .
     - node --version
+  pre_ci_boot:
+    image_name: ttrahan/sample-radar-ui-ebs
+    image_tag: tip
+    pull: false
+    env: application_name=sample-radar-ui-ebs-cl bucket_name=elasticbeanstalk-us-east-1-288971733297 environment_name=sample-radar-ui-ebs-cl region=us-east-1 branch=new-build-system
+    options: --privileged=true
+  ci:
+    - npm install
+  post_ci:
+    - docker tag -f ttrahan/sample-radar-ui-ebs:latest ttrahan/sample-radar-ui-ebs:bld.$BRANCH.$BUILD_NUMBER
+    - docker push ttrahan/sample-radar-ui-ebs:$BRANCH.$BUILD_NUMBER
 
-install:
-	- npm install
+integrations:
+    hub:
+      - integrationName: Docker Hub
+        type: docker
+        branches:
+          only:
+            - new-build-system
