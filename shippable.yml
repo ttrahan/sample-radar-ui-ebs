@@ -23,8 +23,8 @@ build:
 
 integrations:
     hub:
-      - integrationName: "Docker Hub"
-        type: docker
+      - integrationName: "GCR"
+        type: gcr
         branches:
           only:
             - new-build-system
