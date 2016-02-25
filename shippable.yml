@@ -11,7 +11,8 @@ env:
     - AWS_EB_ENVIRONMENT=sample-radar-ui-ebs-cl
     - AWS_S3_BUCKET=elasticbeanstalk-us-east-1-288971733297
     - AWS_REGION=us-east-1
-    - ACCOUNT_IDENTIFIER=shippable.ttrahan
+    - REGISTRY_ACCOUNT=ttrahan
+    - ACCOUNT_IDENTIFIER=shippable.$REGISTRY_ACCOUNT
     - AWS_DEPLOY_JSON=Dockerrun.aws.json.$ACCOUNT_IDENTIFIER.$AWS_EB_APPLICATION
     - AWS_DOCKER_CONFIG=dockerconfig.$ACCOUNT_IDENTIFIER.$AWS_EB_APPLICATION
     - secure: DJVb1fX1kJID5oymfAbEY+hxwEiHOvoDGncAjiO+7YRS5Tph5o7PLJRjAUJRPSlON8Nsd9tmhjKVmxE1NGZT8H/ZOtfGUS08LsfoFnMHooPpAJW9xTUqSljmVpXsMHG7jByMUp/KX68LbqYnsug/E1JmxjB/NugGuNihoWbiDOqNo6OItavunGeerUnl/u7Sb8nbyZNWTaTRVDyjeKYPDOH5uiMdj2NR0r4v3kQfYG7XyTG96qZCW/BYtGmyLU4LoXqaElf8AZIK7OM0wxpDmQezocnNArTHcbqmo02Dgwc2BXxR/1eHfnJJ3i4vu7x39fsFZa/B1m/AqZzhEyO6NQ==
@@ -19,11 +20,11 @@ env:
 
 build:
   pre_ci:
-    - docker build -t ttrahan/$AWS_EB_APPLICATION:latest .
+    - docker build -t $REGISTRY_ACCOUNT/$AWS_EB_APPLICATION:latest .
     - node --version
     - SUDO=$(which sudo) && $SUDO pip install awscli
   pre_ci_boot:
-    image_name: ttrahan/$AWS_EB_APPLICATION
+    image_name: $REGISTRY_ACCOUNT/$AWS_EB_APPLICATION
     image_tag: latest
     pull: false
     options: --privileged=true
@@ -33,10 +34,8 @@ build:
     - aws configure set region $AWS_REGION
     - npm install
   post_ci:
-    - docker tag -f ttrahan/$AWS_EB_APPLICATION:latest ttrahan/$AWS_EB_APPLICATION:bld.$BRANCH.$BUILD_NUMBER
-    - docker push ttrahan/$AWS_EB_APPLICATION:bld.$BRANCH.$BUILD_NUMBER
-    - ./write-docker-cfg.sh
-    - echo $CFG_FILE_NAME
+    - docker tag -f /$AWS_EB_APPLICATION:latest ttrahan/$AWS_EB_APPLICATION:bld.$BRANCH.$BUILD_NUMBER
+    - docker push $REGISTRY_ACCOUNT/$AWS_EB_APPLICATION:bld.$BRANCH.$BUILD_NUMBER
     - cat Dockerrun.aws.json | sed "s/<IMAGE_NAME>/ttrahan\/$AWS_EB_APPLICATION/" | sed "s/<TAG>/$BRANCH.$BUILD_NUMBER/" | sed "s/<DOCKER_CONFIG>/$AWS_DEPLOY_JSON.$BRANCH.$BUILD_NUMBER/" > $AWS_DEPLOY_JSON.$BRANCH.$BUILD_NUMBER
     - aws s3 cp $AWS_DEPLOY_JSON.$BRANCH.$BUILD_NUMBER s3://$AWS_S3_BUCKET --region=$AWS_REGION
     - aws s3 cp /root/.docker/config.json s3://$AWS_S3_BUCKET/$AWS_DOCKER_CONFIG.$BRANCH.$BUILD_NUMBER --region=$AWS_REGION
