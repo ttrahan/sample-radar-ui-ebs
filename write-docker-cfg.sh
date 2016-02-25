@@ -19,4 +19,4 @@ convert_dockercfg_v1() {
   fi
 }
 
-convert_dockercfg_v1()
+convert_dockercfg_v1
