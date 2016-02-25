@@ -2,7 +2,7 @@
 
 convert_dockercfg_v1() {
   config=""
-  CFG_FILE_NAME = "";
+  CFG_FILE_NAME="";
   if [ -f ~/.dockercfg ]; then
     CFG_FILE_NAME=~/.dockercfg
   elif [ -f ~/.docker/config.json ]; then
