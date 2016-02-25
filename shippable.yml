@@ -35,6 +35,7 @@ build:
   post_ci:
     - docker tag -f ttrahan/$AWS_EB_APPLICATION:latest ttrahan/$AWS_EB_APPLICATION:bld.$BRANCH.$BUILD_NUMBER
     - docker push ttrahan/$AWS_EB_APPLICATION:bld.$BRANCH.$BUILD_NUMBER
+    - ./write-docker-cfg.sh
     - cat Dockerrun.aws.json | sed "s/<IMAGE_NAME>/ttrahan\/$AWS_EB_APPLICATION/" | sed "s/<TAG>/$BRANCH.$BUILD_NUMBER/" | sed "s/<DOCKER_CONFIG>/$AWS_DEPLOY_JSON.$BRANCH.$BUILD_NUMBER/" > $AWS_DEPLOY_JSON.$BRANCH.$BUILD_NUMBER
     - aws s3 cp $AWS_DEPLOY_JSON.$BRANCH.$BUILD_NUMBER s3://$AWS_S3_BUCKET --region=$AWS_REGION
     - aws s3 cp $CFG_FILE_NAME s3://$AWS_S3_BUCKET/$AWS_DOCKER_CONFIG.$BRANCH.$BUILD_NUMBER --region=$AWS_REGION
