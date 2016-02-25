@@ -44,8 +44,6 @@ build:
     - sleep 20s #This sleep is to make sure the image is available in the registry
     - aws elasticbeanstalk update-environment --environment-name $AWS_EB_ENVIRONMENT --version-label $ACCOUNT_IDENTIFIER.$AWS_EB_APPLICATION.$BRANCH.$BUILD_NUMBER --region=$AWS_REGION
 
-aws s3 cp /root/finalcfg.json s3://elasticbeanstalk-us-east-1-288971733297/dockerconfig.shippable.ttrahan.sample-radar-ui-ebs.master.12 --region=us-east-1
-
 integrations:
     hub:
       - integrationName: "Docker Hub"
