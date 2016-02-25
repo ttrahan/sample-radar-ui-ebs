@@ -7,7 +7,7 @@ node_js:
 
 env:
   global:
-    - AWS_EB_APPLICATION=sample-radar-ui-ebs-cl
+    - AWS_EB_APPLICATION=sample-radar-ui-ebs-cli
     - AWS_EB_ENVIRONMENT=sample-radar-ui-ebs-cl
     - AWS_S3_BUCKET=elasticbeanstalk-us-east-1-288971733297
     - AWS_REGION=us-east-1
