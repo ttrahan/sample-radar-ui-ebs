@@ -13,7 +13,6 @@ build:
     image_name: ttrahan/sample-radar-ui-ebs
     image_tag: latest
     pull: false
-    env: application_name=sample-radar-ui-ebs-cl bucket_name=elasticbeanstalk-us-east-1-288971733297 environment_name=sample-radar-ui-ebs-cl region=us-east-1 branch=new-build-system
     options: --privileged=true
   ci:
     - npm install
