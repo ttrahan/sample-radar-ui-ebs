@@ -9,7 +9,7 @@ env:
   global:
     - AWS_EB_APPLICATION=sample-radar-ui-ebs-cli
     - AWS_EB_ENVIRONMENT=sample-radar-ui-ebs-cl
-    - AWS_S3_BUCKET=elasticbeanstalk-us-east-1-288971733297/sample-radar-ui-ebs-cli
+    - AWS_S3_BUCKET=elasticbeanstalk-us-east-1-288971733297
     - AWS_REGION=us-east-1
     - REGISTRY_ACCOUNT=ttrahan
     - ACCOUNT_IDENTIFIER=shippable.$REGISTRY_ACCOUNT
@@ -39,8 +39,8 @@ build:
     - docker tag -f $REGISTRY_ACCOUNT/$AWS_EB_APPLICATION:latest $REGISTRY_ACCOUNT/$AWS_EB_APPLICATION:$BRANCH.$BUILD_NUMBER
     - docker push $REGISTRY_ACCOUNT/$AWS_EB_APPLICATION:$BRANCH.$BUILD_NUMBER
     - cat Dockerrun.aws.json | sed "s/<IMAGE_NAME>/$REGISTRY_ACCOUNT\/$AWS_EB_APPLICATION/" | sed "s/<TAG>/$BRANCH.$BUILD_NUMBER/" | sed "s/<DOCKER_CONFIG>/$AWS_DEPLOY_JSON.$BRANCH.$BUILD_NUMBER/" > $AWS_DEPLOY_JSON.$BRANCH.$BUILD_NUMBER
-    - aws s3 cp $AWS_DEPLOY_JSON.$BRANCH.$BUILD_NUMBER s3://$AWS_S3_BUCKET --region=$AWS_REGION
-    - aws s3 cp /root/.docker/config.json s3://$AWS_S3_BUCKET/$AWS_DOCKER_CONFIG.$BRANCH.$BUILD_NUMBER --region=$AWS_REGION
+    - aws s3 cp $AWS_DEPLOY_JSON.$BRANCH.$BUILD_NUMBER s3://$AWS_S3_BUCKET/$AWS_EB_APPLICATION/$AWS_DEPLOY_JSON.$BRANCH.$BUILD_NUMBER --region=$AWS_REGION
+    - aws s3 cp /root/.docker/config.json s3://$AWS_S3_BUCKET/$AWS_EB_APPLICATION/$AWS_DOCKER_CONFIG.$BRANCH.$BUILD_NUMBER --region=$AWS_REGION
     - aws elasticbeanstalk create-application-version --application-name $AWS_EB_APPLICATION --version-label $ACCOUNT_IDENTIFIER.$AWS_EB_APPLICATION.$BRANCH.$BUILD_NUMBER --source-bundle S3Bucket=$AWS_S3_BUCKET,S3Key=$AWS_DEPLOY_JSON.$BRANCH.$BUILD_NUMBER --region=$AWS_REGION
     - sleep 20s #This sleep is to make sure the image is available in the registry
     - aws elasticbeanstalk update-environment --environment-name $AWS_EB_ENVIRONMENT --version-label $ACCOUNT_IDENTIFIER.$AWS_EB_APPLICATION.$BRANCH.$BUILD_NUMBER --region=$AWS_REGION
