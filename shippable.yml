@@ -19,7 +19,6 @@ build:
   post_ci:
     - docker tag -f ttrahan/sample-radar-ui-ebs:latest ttrahan/sample-radar-ui-ebs:bld.$BRANCH.$BUILD_NUMBER
     - docker push ttrahan/sample-radar-ui-ebs:bld.$BRANCH.$BUILD_NUMBER
-    - echo $DOCKER_CONFIG
 
 integrations:
     hub:
