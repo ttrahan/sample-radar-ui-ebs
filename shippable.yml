@@ -28,10 +28,9 @@ build:
     pull: false
     options: --privileged=true
   ci:
-    - mkdir -p ~/.aws 
-    - echo '[profile aws-cli]' > ~/.aws/config
-    - echo "aws_access_key_id = $AWS_ACCESS_KEY_ID" >> ~/.aws/config
-    - echo "aws_secret_access_key = $AWS_SECRET_ACCESS_KEY" >> ~/.aws/config
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+    - aws configure set region $AWS_REGION
     - npm install
   post_ci:
     - docker tag -f ttrahan/$AWS_EB_APPLICATION:latest ttrahan/$AWS_EB_APPLICATION:bld.$BRANCH.$BUILD_NUMBER
