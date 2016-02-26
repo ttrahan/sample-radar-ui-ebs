@@ -7,8 +7,8 @@ node_js:
 
 env:
   global:
-    - AWS_EB_APPLICATION=sample-radar-ui-ebs # existing EB application name
-    - AWS_EB_ENVIRONMENT=sample-radar-ui-ebs # existing EB environment name
+    - AWS_EB_APPLICATION=sample-radar-ui-eb # existing EB application name
+    - AWS_EB_ENVIRONMENT=sample-radar-ui-eb # existing EB environment name
     - AWS_S3_BUCKET=elasticbeanstalk-us-east-1-288971733297 # S3 bucket allowing EB access
     - AWS_REGION=us-east-1
     - REGISTRY_ACCOUNT=ttrahan # Docker Hub account name
