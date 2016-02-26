@@ -7,11 +7,11 @@ node_js:
 
 env:
   global:
-    - AWS_EB_APPLICATION=sample-radar-ui-ebs-cli
-    - AWS_EB_ENVIRONMENT=sample-radar-ui-ebs-cl
-    - AWS_S3_BUCKET=elasticbeanstalk-us-east-1-288971733297
+    - AWS_EB_APPLICATION=sample-radar-ui-ebs # existing EB application name
+    - AWS_EB_ENVIRONMENT=sample-radar-ui-ebs # existing EB environment name
+    - AWS_S3_BUCKET=elasticbeanstalk-us-east-1-288971733297 # S3 bucket allowing EB access
     - AWS_REGION=us-east-1
-    - REGISTRY_ACCOUNT=ttrahan
+    - REGISTRY_ACCOUNT=ttrahan # Docker Hub account name
     - ACCOUNT_IDENTIFIER=shippable.$REGISTRY_ACCOUNT
     - AWS_DEPLOY_JSON=Dockerrun.aws.json.$ACCOUNT_IDENTIFIER.$AWS_EB_APPLICATION
     - AWS_DOCKER_CONFIG=dockerconfig.$ACCOUNT_IDENTIFIER.$AWS_EB_APPLICATION
